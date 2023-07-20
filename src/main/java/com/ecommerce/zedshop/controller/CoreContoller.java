@@ -36,7 +36,7 @@ public class CoreContoller {
     CategoryService categoryService;
     @Autowired
     private UserRepository repo;
-    @GetMapping("/home")
+    @GetMapping("/")
     public String home(Model model, Principal principal, HttpSession session){
 
         if(principal != null){
