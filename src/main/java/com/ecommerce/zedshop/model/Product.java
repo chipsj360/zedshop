@@ -23,8 +23,9 @@ public class Product {
     private double costPrice;
     private double salePrice;
     private int currentQuantity;
-    @Lob
-    @Column(columnDefinition = "VARBINARY")
+
+
+    @Column(columnDefinition = "VARCHAR")
     private  String image;
 
     @ManyToOne(fetch = FetchType.EAGER)
