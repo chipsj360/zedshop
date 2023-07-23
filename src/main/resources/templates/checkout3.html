@@ -38,12 +38,14 @@
                     <span class="text-muted" th:text="'K' + ${item.product.costPrice}"></span>
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between">
-                    <span>Total (ZMK)</span>
-                    <strong>[[${cart.totalPrices}]]</strong>
-                </li>
-            </ul>
 
+            </ul>
+          <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between">
+                  <span>Total (ZMK)</span>
+                  <strong>[[${cart.totalPrices}]]</strong>
+              </li>
+          </ul>
         </div>
         <div class="col-md-8 order-md-1">
             <h4 class="mb-3">Billing address</h4>

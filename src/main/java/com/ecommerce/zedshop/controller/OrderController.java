@@ -57,7 +57,7 @@ public class OrderController {
             model.addAttribute("cart", cart);
         }
 
-        return "checkout3";
+        return "checkout4";
     }
 @RequestMapping(value="/buy/{id}" , method = {RequestMethod.PUT , RequestMethod.GET})
     public String buy(@PathVariable("id")Long id,Principal principal,Model model){
@@ -70,7 +70,7 @@ public class OrderController {
       Product product = productService.getProductById(id);
     model.addAttribute("user", user);
       model.addAttribute("product", product);
-        return "checkout3";
+        return "checkout5";
     }
 
     @PostMapping("/save-order")
