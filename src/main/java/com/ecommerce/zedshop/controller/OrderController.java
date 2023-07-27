@@ -73,9 +73,9 @@ public class OrderController {
         return "checkout5";
     }
 
-    @PostMapping("/save-order")
+    @GetMapping("/save-order")
     public String saveOrder(Principal principal,
-                            @RequestParam("phone_number")String phoneNumber,
+                            @RequestParam("phoneNumber")String phoneNumber,
                             @RequestParam("currency")String currency,
                             @RequestParam("country")String country) throws IOException {
         if (principal==null){

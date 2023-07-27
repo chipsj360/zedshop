@@ -5,6 +5,7 @@ import com.ecommerce.zedshop.model.Order;
 import com.ecommerce.zedshop.model.User;
 import com.ecommerce.zedshop.model.dto.CustomerDto;
 import com.ecommerce.zedshop.model.dto.ProductDto;
+import com.ecommerce.zedshop.service.OrderService;
 import com.ecommerce.zedshop.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    OrderService orderService;
 
     @GetMapping("/customers")
     public String getAllUsers(Model model){
@@ -47,6 +51,8 @@ public class UserController {
             String username = principal.getName();
             CustomerDto customer = userService.getUser(username);
             model.addAttribute("customer", customer);
+            List<Order>order=orderService.findAllOrders();
+            model.addAttribute("orders",order);
             return "account";
         }
     }

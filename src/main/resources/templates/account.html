@@ -89,7 +89,7 @@
                         <i class="fa fa-key text-center mr-1"></i>
                         Password
                     </a>
-                    <a class="nav-link" id="security-tab"  th:href="@{/order}" role="tab" >
+                    <a class="nav-link" id="security-tab"  th:href="@{#orders}"  data-bs-toggle="pill" role="tab" aria-controls="orders" aria-selected="false" >
                         <i class="fa fa-user text-center mr-1"></i>
                         Orders
                     </a>
@@ -169,7 +169,7 @@
                     </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
+                <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="security-tab">
                     <h3 class="mb-4">Orders Place</h3>
                     <section>
                         <div class="cart-box-main">
@@ -213,7 +213,8 @@
                                                         <span></span>Credit Cart</span>
                                                     </td>
                                                     <td>
-                                                        <button class="button-cancel">Cancel</button>
+                                                        <a th:if = "${order.orderStatus =='Shipping'}" th:href="@{/user-cancel-order/{id} (id = ${order.id})}" class="btn btn-danger">Cancel</a>
+                                                        <a th:if = "${order.orderStatus =='Cancelled'}" class="btn btn-secondary disabled">Cancelled</a>
                                                     </td>
                                                     </a>
                                                     </td>

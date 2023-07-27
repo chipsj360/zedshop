@@ -152,8 +152,8 @@
 
 
             <div class="col-md-5">
-              <label for="country" class="form-label">Country</label>
-              <select class="form-select" id="country" required>
+              <label  class="form-label">Country</label>
+              <select class="form-select"  name="country" required>
                 <option value="">Choose...</option>
                 <option >ZM</option>
               </select>
@@ -163,10 +163,10 @@
             </div>
 
             <div class="col-md-4">
-              <label for="state" class="form-label">State</label>
-              <select class="form-select" id="state" required>
+              <label  class="form-label">Currency</label>
+              <select class="form-select"  required name="currency">
                 <option value="">Choose...</option>
-                <option>California</option>
+                <option>ZMW</option>
               </select>
               <div class="invalid-feedback">
                 Please provide a valid state.
@@ -174,11 +174,9 @@
             </div>
 
             <div class="col-md-3">
-              <label for="zip" class="form-label">Zip</label>
-              <input type="text" class="form-control" id="zip" placeholder="" required>
-              <div class="invalid-feedback">
-                Zip code required.
-              </div>
+              <label  class="form-label">Phone Number</label>
+              <input type="text" class="form-control" name="phoneNumber"  required>
+
             </div>
           </div>
 
@@ -249,7 +247,8 @@
           </div>
 
           <hr class="my-4">
-          <button class="btn btn-info btn-block btn-success" type="submit">submit</button>
+          <a th:href="@{/save-order}" class="btn btn-success btn-lg btn-block" th:if="${not cart.cartItem.empty}">Place Order</a>
+          <button type="submit" class="btn btn-secondary btn-lg btn-block disabled" th:if="${cart.cartItem.empty}">Place Order</button>
         </form>
       </div>
     </div>
