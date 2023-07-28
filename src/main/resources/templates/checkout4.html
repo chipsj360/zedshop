@@ -104,7 +104,7 @@
       </div>
       <div class="col-md-7 col-lg-8">
         <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate>
+        <form class="needs-validation" novalidate  th:action="@{/save-order}" method="post">
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="firstName" class="form-label">First name</label>
@@ -247,7 +247,8 @@
           </div>
 
           <hr class="my-4">
-          <a th:href="@{/save-order}" class="btn btn-success btn-lg btn-block" th:if="${not cart.cartItem.empty}">Place Order</a>
+<!--          <a th:href="@{/save-order}" class="btn btn-success btn-lg btn-block" th:if="${not cart.cartItem.empty}">Place Order</a>-->
+          <button type="submit" class="btn btn-secondary btn-lg btn-block " th:if="${not cart.cartItem.empty}">Place Order</button>
           <button type="submit" class="btn btn-secondary btn-lg btn-block disabled" th:if="${cart.cartItem.empty}">Place Order</button>
         </form>
       </div>

@@ -73,7 +73,7 @@ public class OrderController {
         return "checkout5";
     }
 
-    @GetMapping("/save-order")
+    @PostMapping("/save-order")
     public String saveOrder(Principal principal,
                             @RequestParam("phoneNumber")String phoneNumber,
                             @RequestParam("currency")String currency,
