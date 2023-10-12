@@ -25,7 +25,8 @@ public class Product {
     private int currentQuantity;
 
 
-    @Column(columnDefinition = "VARCHAR")
+    @Lob
+    @Column(columnDefinition = "MEDIUMBLOB")
     private  String image;
 
     @ManyToOne(fetch = FetchType.EAGER)
