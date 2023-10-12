@@ -51,8 +51,8 @@ public class UserController {
             String username = principal.getName();
             CustomerDto customer = userService.getUser(username);
             model.addAttribute("customer", customer);
-            List<Order>order=orderService.findAllOrders();
-            model.addAttribute("orders",order);
+//            List<Order>order=orderService.findAllOrders();
+//            model.addAttribute("orders",order);
             return "account";
         }
     }
