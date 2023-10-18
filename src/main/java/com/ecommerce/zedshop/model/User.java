@@ -28,7 +28,7 @@ public class User{
     private String password;
     private boolean enabled;
     private Date date;
-
+    private boolean seller;
     @OneToOne(mappedBy = "user")
     private ShoppingCart shoppingCart;
 
@@ -60,5 +60,8 @@ public class User{
     }
 
     private String resetPasswordToken;
+    public boolean getSeller(){
+       return seller;
+   }
 
 }

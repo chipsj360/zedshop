@@ -70,7 +70,7 @@ public class CoreContoller {
         return "register";
     }
     @PostMapping("/process_register")
-    public String processRegistration(User user,Model model){
+    public String processRegistration(@ModelAttribute("user") User user,Model model){
 
         if(service.isEmailExists(user.getEmail())){
             model.addAttribute("emailExists", true);
@@ -103,6 +103,10 @@ public class CoreContoller {
         return "dashboard";
      }
 
+    @GetMapping("/seller-dashboard")
+    public String seller(){
+        return "seller-dashboard";
+    }
 
     @GetMapping("/category")
     public String shopByCategory(){

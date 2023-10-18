@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +59,12 @@
               <label for="pass"><i class="zmdi zmdi-lock"></i></label>
               <input type="password" name="pass" id="pass" placeholder="Password" th:field="*{password}" required/>
             </div>
-
+            <div class="form-group">
+              <input type="checkbox" name="seller" id="seller" class="agree-term"  value="" th:checked="${user.seller}"
+              th:value="true"
+              />
+              <label for="seller" class="label-agree-term"><span><span></span></span>Sign Up as a seller </label>
+            </div>
             <div class="form-group">
               <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  required/>
               <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>

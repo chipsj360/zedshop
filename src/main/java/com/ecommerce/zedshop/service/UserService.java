@@ -34,9 +34,15 @@ public class UserService {
 
 
 
-    public String addUser(User user){
+    public String addUser(User user ){
         user.setPassword( bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList(roleRepository.findByName("CUSTOMER")));
+        if(user.getSeller()==false){
+            user.setRoles(Arrays.asList(roleRepository.findByName("CUSTOMER")));
+
+        }else {
+            user.setRoles(Arrays.asList(roleRepository.findByName("SELLER")));
+        }
+       ;
         repo.save(user);
         return "register_success";
     }
