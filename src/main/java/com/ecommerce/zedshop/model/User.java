@@ -2,14 +2,15 @@ package com.ecommerce.zedshop.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import java.util.*;
 
 
 @Entity
-@Data
+@Setter
+@Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
@@ -48,14 +49,12 @@ public class User{
     }
 
     public boolean hasRole(String roleName) {
-        Iterator<Role> iterator = this.roles.iterator();
-        while (iterator.hasNext()) {
-            Role role = iterator.next();
+
+        for (Role role : this.roles) {
             if (role.getName().equals(roleName)) {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -63,5 +62,7 @@ public class User{
     public boolean getSeller(){
        return seller;
    }
+
+
 
 }
