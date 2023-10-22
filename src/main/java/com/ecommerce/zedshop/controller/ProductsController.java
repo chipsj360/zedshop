@@ -25,7 +25,7 @@ public class ProductsController {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping("/products")
+    @GetMapping("/upload-products")
     public String addProducts(Model model, Principal principal){
         if(principal == null){
             return "redirect:/login";
@@ -34,6 +34,16 @@ public class ProductsController {
         model.addAttribute("categories", categories);
         model.addAttribute("product", new ProductDto());
         return "products";
+    }
+
+    @GetMapping("/seller-products")
+    public String sellerViewProducts(Model model, Principal principal){
+        if (principal == null){
+            return "redirect:/login";
+        }
+        List<Product>products = productService.getAllProduct();
+        model.addAttribute("products", products);
+        return "seller-product-view";
     }
 
 

@@ -21,7 +21,7 @@
 <body>
 
 <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" th:href="@{/}">Home</a>
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" th:href="@{/admin-dashboard}">Home</a>
     <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -46,7 +46,7 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">
                             <span data-feather="home" class="align-text-bottom"></span>
-                            Dashboard
+                            Admin Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
@@ -62,19 +62,19 @@
                         </button>
                         <div class="collapse" id="dashboard-collapse">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a th:href="@{/products}" class="link-dark d-inline-flex text-decoration-none rounded">Add Product</a></li>
                                 <li><a th:href="@{/view}" class="link-dark d-inline-flex text-decoration-none rounded">View products</a></li>
                                 <li><a th:href="@{/categories}" class="link-dark d-inline-flex text-decoration-none rounded">Categories</a></li>
-                                <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Annually</a></li>
                             </ul>
                         </div>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/customers}">
                             <span data-feather="users" class="align-text-bottom"></span>
                             Customers
                         </a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                             <span data-feather="bar-chart-2" class="align-text-bottom"></span>
@@ -153,24 +153,18 @@
                         <th scope="col">description</th>
                         <th scope="col">price</th>
                         <th scope="col">Quantity</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">delete product</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="product : ${products}">
                         <td><img src="" style="height: 40px; width: 40px;" th:src = "*{'data:image/jpeg;base64,' + {product.image}}"></td>
-                        <th scope="row" th:text = "${product.name}"></th>`
+                        <th scope="row" th:text = "${product.name}"></th>
                         <td th:text = "${product.category.name}"></td>
                         <td th:text = "${product.description}"></td>
                         <td th:text = "${product.costPrice}"></td>
                         <td th:text = "${product.currentQuantity}"></td>
-                        <td><a th:href="@{/update-product/{id} (id = ${product.id})}" class="btn btn-primary">Update</a></td>
-                        <td>
-                            <a  th:href = "@{/delete-product/{id} (id = ${product.id})}" class="btn btn-danger">Delete</a>
-                        </td>
-
                     </tr>
+
                     </tbody>
                 </table>
                 <hr>

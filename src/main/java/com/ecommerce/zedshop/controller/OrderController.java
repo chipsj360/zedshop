@@ -127,6 +127,18 @@ public class OrderController {
         return "admin-order";
     }
 
+    @GetMapping("/seller-orders")
+    public String findOrders(Principal principal,Model model){
+        if (principal==null){
+            return "redirect:/login";
+        }
+        String username = principal.getName();
+        User user=userService.findByUsername(username);
+        List<Order>orderList=orderService.findAllOrders();
+        model.addAttribute("orders",orderList);
+        return "seller-orders";
+    }
+
 
 
 

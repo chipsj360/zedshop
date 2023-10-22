@@ -3,22 +3,25 @@ package com.ecommerce.zedshop.service;
 import com.ecommerce.zedshop.model.Role;
 import com.ecommerce.zedshop.model.User;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class CustomUserDetails implements UserDetails {
+@RequiredArgsConstructor
+public class CustomUserDetails implements UserDetails, Serializable {
 
     private User user;
     private String userName;
     private String password;
 
     private String email;
-    private List<GrantedAuthority>authorities;
+
+    private List<GrantedAuthority> authorities;
 
     public CustomUserDetails(User user){
         this.userName=user.getUserName();

@@ -64,8 +64,13 @@ public  AuthenticationProvider authenticationProvider(){
                 .requestMatchers("/css/**","/images/**","/","/register", "/process_register","register_success","/js/**","/product_detail/**")
                 .permitAll()
                 .and()
-                .authorizeRequests().requestMatchers("/dashboard").hasAuthority("ADMIN")
-                .and().formLogin()
+                .authorizeRequests().requestMatchers("/admin-dashboard", "/customers", "/admin-orders").hasAuthority("ADMIN")
+                .and()
+                .authorizeRequests().requestMatchers("/seller-dashboard", "/seller-orders", "/seller-products").hasAuthority("SELLER")
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
                 .loginPage("/login")
                 .usernameParameter("email")
                 .successHandler(loginSuccessHandler)
@@ -77,7 +82,6 @@ public  AuthenticationProvider authenticationProvider(){
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
                 .build();
-
 
     }
 

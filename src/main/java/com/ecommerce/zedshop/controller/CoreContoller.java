@@ -97,14 +97,17 @@ public class CoreContoller {
         return "access_denied";
     }
 
-     @GetMapping("/dashboard")
-     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-     public String viewAll(){
+     @GetMapping("/admin-dashboard")
+     public String viewAll(Model model){
+        List<Product> products = productService.getAllProduct();
+        model.addAttribute("products", products);
         return "dashboard";
      }
 
     @GetMapping("/seller-dashboard")
-    public String seller(){
+    public String seller(Model model){
+        List<Product> products = productService.getAllProduct();
+        model.addAttribute("products", products);
         return "seller-dashboard";
     }
 
