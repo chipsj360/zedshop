@@ -2,6 +2,8 @@ package com.ecommerce.zedshop.service;
 
 import com.ecommerce.zedshop.model.Category;
 import com.ecommerce.zedshop.model.Product;
+import com.ecommerce.zedshop.model.User;
+import com.ecommerce.zedshop.model.dto.CustomerDto;
 import com.ecommerce.zedshop.model.dto.ProductDto;
 import com.ecommerce.zedshop.repository.ProductRepository;
 import com.ecommerce.zedshop.utils.ImageUpload;
@@ -9,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -24,8 +26,11 @@ public class ProductService {
 
     @Autowired
     private ImageUpload imageUpload;
+
+    @Autowired
+    private UserService userService;
     public void  saveProductToDB(MultipartFile file, String name, String description
-            , double price, int currentQuantity ,Category category)
+            , double price, int currentQuantity , Category category, String username)
     {
         Product p = new Product();
         String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
@@ -46,6 +51,8 @@ public class ProductService {
         p.setCategory(category);
         p.set_activated(true);
         p.set_deleted(false);
+        User user = userService.getUserByUsername(username);
+        p.setUser(user);
 
         repo.save(p);
     }

@@ -4,17 +4,18 @@ package com.ecommerce.zedshop.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.*;
 
 
 @Entity
 @Setter
 @Getter
-@ToString
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User{
+public class User implements Serializable {
 
     @Id
     @Column(name = "user_id")
@@ -30,11 +31,15 @@ public class User{
     private boolean enabled;
     private Date date;
     private boolean seller;
+
     @OneToOne(mappedBy = "user")
     private ShoppingCart shoppingCart;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
+
+    @OneToMany( mappedBy = "user")
+    private List<Product> product;
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(

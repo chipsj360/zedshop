@@ -23,6 +23,11 @@ public class Product {
     private double costPrice;
     private double salePrice;
     private int currentQuantity;
+    private String sellerName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private User user;
 
 
     @Lob
@@ -34,4 +39,6 @@ public class Product {
     private Category category;
     private boolean is_deleted;
     private boolean is_activated;
+
+
 }

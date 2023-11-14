@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -33,16 +34,14 @@ public class UserService {
     private UserRepository repo;
 
 
+    public String addUser(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (!user.getSeller()) {
+            user.setRoles(Collections.singletonList(roleRepository.findByName("CUSTOMER")));
 
-    public String addUser(User user ){
-        user.setPassword( bCryptPasswordEncoder.encode(user.getPassword()));
-        if(user.getSeller()==false){
-            user.setRoles(Arrays.asList(roleRepository.findByName("CUSTOMER")));
-
-        }else {
-            user.setRoles(Arrays.asList(roleRepository.findByName("SELLER")));
+        } else {
+            user.setRoles(Collections.singletonList(roleRepository.findByName("SELLER")));
         }
-       ;
         repo.save(user);
         return "register_success";
     }
@@ -51,27 +50,27 @@ public class UserService {
         return repo.findByUsername(username);
     }
 
-public CustomerDto getUser(String username){
+    public CustomerDto getUser(String username) {
 
-    CustomerDto customerDto = new CustomerDto();
-    User user = repo.findByUsername(username);
-    customerDto.setFirstName(user.getFirstName());
-    customerDto.setLastName(user.getLastName());
-    customerDto.setUsername(user.getUserName());
-    customerDto.setPassword(user.getPassword());
-    customerDto.setEmail(user.getEmail());
+        CustomerDto customerDto = new CustomerDto();
+        User user = repo.findByUsername(username);
+        customerDto.setFirstName(user.getFirstName());
+        customerDto.setLastName(user.getLastName());
+        customerDto.setUsername(user.getUserName());
+        customerDto.setPassword(user.getPassword());
+        customerDto.setEmail(user.getEmail());
 
-    return customerDto;
+        return customerDto;
 
-}
-
-public User changePass(CustomerDto customerDto) {
-    User user = repo.findByUsername(customerDto.getUsername());
-    user.setPassword(customerDto.getPassword());
-    return repo.save(user);
     }
 
-    public User update(CustomerDto dto,CustomerDto customerDto) {
+    public User changePass(CustomerDto customerDto) {
+        User user = repo.findByUsername(customerDto.getUsername());
+        user.setPassword(customerDto.getPassword());
+        return repo.save(user);
+    }
+
+    public User update(CustomerDto dto, CustomerDto customerDto) {
         User user = repo.findByUsername(dto.getUsername());
         user.setFirstName(customerDto.getFirstName());
         user.setLastName(customerDto.getLastName());
@@ -80,21 +79,22 @@ public User changePass(CustomerDto customerDto) {
     }
 
 
-    public void deleteById(Long id){
+    public void deleteById(Long id) {
         repo.deleteById(id);
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return repo.findAll();
     }
 
-    public boolean isEmailExists(String email){
+    public boolean isEmailExists(String email) {
         return repo.existsByEmail(email);
     }
 
-    public boolean isUsernameExists(String userName){
+    public boolean isUsernameExists(String userName) {
         return repo.existsByUserName(userName);
     }
+
     public void updateResetPasswordToken(String token, String email) throws CustomerNotFoundException {
         User user = repo.findByEmail(email);
         if (user != null) {
@@ -114,7 +114,12 @@ public User changePass(CustomerDto customerDto) {
         repo.save(user);
     }
 
+    public User getUserByUsername(String username){
+       return repo.findByUsername(username);
+    }
+
     public User getByResetPasswordToken(String token) {
         return repo.findByResetPasswordToken(token);
     }
+
 }

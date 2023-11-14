@@ -5,12 +5,14 @@ import com.ecommerce.zedshop.model.Product;
 import com.ecommerce.zedshop.model.ShoppingCart;
 import com.ecommerce.zedshop.model.User;
 import com.ecommerce.zedshop.model.dto.CategoryDto;
+import com.ecommerce.zedshop.model.dto.CustomerDto;
 import com.ecommerce.zedshop.repository.UserRepository;
 import com.ecommerce.zedshop.service.CategoryService;
 import com.ecommerce.zedshop.service.CustomUserDetailsService;
 import com.ecommerce.zedshop.service.ProductService;
 import com.ecommerce.zedshop.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 /*import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;*/
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,11 +28,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@AllArgsConstructor
 public class CoreContoller {
     @Autowired
     private ProductService productService;
     @Autowired
-    private UserService service;
+    private UserService userService;
 
     @Autowired
     CategoryService categoryService;
@@ -41,7 +44,7 @@ public class CoreContoller {
 
         if(principal != null){
             String username = principal.getName();
-            User user = service.findByUsername(username);
+            User user = userService.findByUsername(username);
             ShoppingCart cart = user.getShoppingCart();
 
             if(cart == null || cart.getCartItem().isEmpty()){
@@ -72,19 +75,17 @@ public class CoreContoller {
     @PostMapping("/process_register")
     public String processRegistration(@ModelAttribute("user") User user,Model model){
 
-        if(service.isEmailExists(user.getEmail())){
+        if(userService.isEmailExists(user.getEmail())){
             model.addAttribute("emailExists", true);
             return "register";
-        }else if(service.isUsernameExists(user.getUserName())){
+        }else if(userService.isUsernameExists(user.getUserName())){
             model.addAttribute("usernameExists", true);
             return "register";
         }
 
         else{
-            return service.addUser(user);
+            return userService.addUser(user);
         }
-
-
     }
 
     @GetMapping("/login")
@@ -100,6 +101,15 @@ public class CoreContoller {
      @GetMapping("/admin-dashboard")
      public String viewAll(Model model){
         List<Product> products = productService.getAllProduct();
+        // Iterate through the products and get the first name of the seller that posted the Product for sell.
+        for(Product product : products){
+                User author = product.getUser();
+                // check if author is null if not retrieve the first name.
+            if (author != null) {
+                String username = author.getUserName();
+                product.setSellerName(username);
+            }
+        }
         model.addAttribute("products", products);
         return "dashboard";
      }
@@ -115,7 +125,4 @@ public class CoreContoller {
     public String shopByCategory(){
         return "category";
     }
-
-
-
 }

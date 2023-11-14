@@ -2,16 +2,14 @@ package com.ecommerce.zedshop.controller;
 
 import com.ecommerce.zedshop.model.Category;
 import com.ecommerce.zedshop.model.Product;
+import com.ecommerce.zedshop.model.User;
 import com.ecommerce.zedshop.model.dto.CategoryDto;
-import com.ecommerce.zedshop.model.dto.ProductCountDTO;
+import com.ecommerce.zedshop.model.dto.CustomerDto;
 import com.ecommerce.zedshop.model.dto.ProductDto;
-import com.ecommerce.zedshop.repository.ProductRepository;
 import com.ecommerce.zedshop.service.CategoryService;
 import com.ecommerce.zedshop.service.ProductService;
+import com.ecommerce.zedshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -24,11 +22,12 @@ import java.util.List;
 @Controller
 public class ProductsController {
     @Autowired
-    private ProductRepository productRepository;
-    @Autowired
     private ProductService productService;
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/upload-products")
     public String addProducts(Model model, Principal principal){
@@ -58,10 +57,12 @@ public class ProductsController {
                               @RequestParam("price") double price,
                               @RequestParam("desc") String desc,
                               @RequestParam("quantity") int currentQuantity,
-                              @RequestParam("categories")Category category)
+                              @RequestParam("categories")Category category,
+                              Principal principal)
 
     {
-        productService.saveProductToDB(file, name, desc, price,currentQuantity,category);
+        String username = principal.getName();
+        productService.saveProductToDB(file, name, desc, price,currentQuantity,category, username);
         return "redirect:/listProducts.html";
     }
 
@@ -72,7 +73,7 @@ public class ProductsController {
     {
         List<Product> products = productService.getAllProduct();
         model.addAttribute("products", products);
-        return "dashboard";
+        return "seller-dashboard";
     }
 
     @GetMapping("/view")
@@ -212,14 +213,6 @@ public class ProductsController {
         return "search-results";
 
     }
-    @GetMapping("/frequently-bought")
-    public String fastMovingProducts(){
-        return"fast-moving-items";
-    }
-    @GetMapping(value = "/chartdata",produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<ProductCountDTO> chartData(){
-      return productRepository.fastMovingProducts();
-    }
+
 
 }

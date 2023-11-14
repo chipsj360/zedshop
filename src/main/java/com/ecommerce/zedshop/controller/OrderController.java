@@ -145,13 +145,13 @@ public class OrderController {
     @RequestMapping(value = "/accept-order/{id}", method = {RequestMethod.PUT , RequestMethod.GET})
     public String acceptOrder(@PathVariable("id")Long id, RedirectAttributes attributes){
         orderService.acceptOrder(id);
-        return "redirect:/seller-orders";
+        return "redirect:/admin-orders";
             }
 
     @RequestMapping(value = "/cancel-order/{id}", method = {RequestMethod.PUT , RequestMethod.GET})
     public String cancelOrder(@PathVariable("id")Long id, RedirectAttributes attributes){
         orderService.cancelOrder(id);
-        return "redirect:/seller-orders";
+        return "redirect:/admin-orders";
     }
 
 
