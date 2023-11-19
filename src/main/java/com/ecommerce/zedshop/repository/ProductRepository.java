@@ -1,6 +1,7 @@
 package com.ecommerce.zedshop.repository;
 
 import com.ecommerce.zedshop.model.Product;
+import com.ecommerce.zedshop.model.dto.ProductCountDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     List<Product> getProductsInCategory(Long categoryId);
     @Query("select p from Product p where p.name like %?1% or p.description like %?1%")
     List<Product> searchProducts(String keyword);
+    @Query("select new com.ecommerce.zedshop.model.dto.ProductCountDTO (p.name,count(o.product.id))from Product p inner join OrderDetail o on p.id=o.product.id group by p.name")
+    List<ProductCountDTO>fastMovingProducts();
 }

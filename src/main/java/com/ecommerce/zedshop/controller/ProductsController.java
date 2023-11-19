@@ -5,11 +5,14 @@ import com.ecommerce.zedshop.model.Product;
 import com.ecommerce.zedshop.model.User;
 import com.ecommerce.zedshop.model.dto.CategoryDto;
 import com.ecommerce.zedshop.model.dto.CustomerDto;
+import com.ecommerce.zedshop.model.dto.ProductCountDTO;
 import com.ecommerce.zedshop.model.dto.ProductDto;
+import com.ecommerce.zedshop.repository.ProductRepository;
 import com.ecommerce.zedshop.service.CategoryService;
 import com.ecommerce.zedshop.service.ProductService;
 import com.ecommerce.zedshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -28,6 +31,9 @@ public class ProductsController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @GetMapping("/upload-products")
     public String addProducts(Model model, Principal principal){
@@ -212,6 +218,16 @@ public class ProductsController {
 
         return "search-results";
 
+    }
+
+    @GetMapping("/frequently-bought")
+    public String fastMovingProducts(){
+        return"fast-moving-items";
+    }
+    @GetMapping(value = "/chartdata",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public List<ProductCountDTO> chartData(){
+        return productRepository.fastMovingProducts();
     }
 
 
