@@ -36,104 +36,6 @@
     </div>
 </header>
 
-<div class="container-fluid">
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3 sidebar-sticky">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">
-                            <span data-feather="home" class="align-text-bottom"></span>
-                            Seller Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/seller-orders}">
-                            <span data-feather="file" class="align-text-bottom"></span>
-                            Orders
-                        </a>
-                    </li>
-                    <li class="nav-item ms-1">
-                        <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                            <span data-feather="shopping-cart" class="align-text-bottom me-2"></span>
-                            Products
-                        </button>
-                        <div class="collapse" id="dashboard-collapse">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a th:href="@{/upload-products}" class="link-dark d-inline-flex text-decoration-none rounded">Add Product</a></li>
-                                <li><a th:href="@{/seller-products}" class="link-dark d-inline-flex text-decoration-none rounded">View products</a></li>
-                                <li><a th:href="@{/categories}" class="link-dark d-inline-flex text-decoration-none rounded">Categories</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/frequently-bought}">
-                            <span data-feather="bar-chart-2" class="align-text-bottom"></span>
-                            Reports
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="layers" class="align-text-bottom"></span>
-                            Integrations
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
-                    <span>Saved reports</span>
-                    <a class="link-secondary" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle" class="align-text-bottom"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" class="align-text-bottom"></span>
-                            Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" class="align-text-bottom"></span>
-                            Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" class="align-text-bottom"></span>
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" class="align-text-bottom"></span>
-                            Year-end sale
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Seller Dashboard</h1>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar" class="align-text-bottom"></span>
-                        This week
-                    </button>
-                </div>
-            </div>
-
-        </main>
-    </div>
-</div>
-
 <div class="container-fluid ">
     <div class="row">
         <div class="">
@@ -142,21 +44,42 @@
                 <div class="card-body">
                     <div class="chart-container pie-chart">
                         <canvas id="myChart"></canvas>
+
                     </div>
 
                 </div>
             </div>
         </div>
+
+
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row">
+        <div class="mx-auto d-flex justify-content-center">
+            <button class="btn btn-light shadow rounded-md m-1 " onclick="loadChartData('daily')">Daily</button>
+            <button class="btn btn-info shadow rounded-md m-1 " onclick="loadChartData('weekly')">Weekly</button>
+            <button class="btn btn-secondary shadow rounded-md m-1 " onclick="loadChartData('monthly')">Monthly</button>
+            <button class="btn btn-dark shadow rounded-md m-1 " onclick="loadChartData('annually')">Yearly</button>
+        </div>
+    </div>
+</div>
 
     <script th:inline="javascript">
+
+     var myChart;
+        function loadChartData(interval){
         // get the canvas element
         var ctx = document.getElementById('myChart').getContext('2d');
         // make an AJAX request to get the chart data from the controller
+
+      if (myChart) {
+            myChart.destroy();
+        }
+
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/chartdata');
+        xhr.open('GET', '/chartdata/'+ interval);
         xhr.onload = function() {
             if (xhr.status === 200) {
                     var contentType = xhr.getResponseHeader('Content-Type');
@@ -173,7 +96,7 @@
                 // create an array of transaction purposes
                 var names = data.map(x => x.name);
                 // create a line chart using Chart.js
-                var myChart = new Chart(ctx, {
+                 myChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: names,
@@ -194,6 +117,7 @@
             }
         };
         xhr.send();
+        }
     </script>
 </body>
 </html>

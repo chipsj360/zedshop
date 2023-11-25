@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -101,6 +102,7 @@ public class OrderService {
                 for (CartItem item : cart.getCartItem()) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
+                    orderDetail.setOrderDate(LocalDate.now());
                     orderDetail.setQuantity(item.getQuantity());
                     orderDetail.setProduct(item.getProduct());
                     orderDetail.setUnitPrice(item.getProduct().getCostPrice());
@@ -140,6 +142,7 @@ public class OrderService {
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrder(order);
             orderDetail.setQuantity(1);
+            orderDetail.setOrderDate(LocalDate.now());
             orderDetail.setProduct(product);
             orderDetail.setUnitPrice(product.getCostPrice());
         orderDetailsRepository.save(orderDetail);

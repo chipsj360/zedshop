@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -34,6 +35,8 @@ public class ProductsController {
 
     @Autowired
     private ProductRepository productRepository;
+
+    LocalDate currentDate = LocalDate.now();
 
     @GetMapping("/upload-products")
     public String addProducts(Model model, Principal principal){
@@ -224,11 +227,34 @@ public class ProductsController {
     public String fastMovingProducts(){
         return"fast-moving-items";
     }
-    @GetMapping(value = "/chartdata",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/chartdata/daily")
     @ResponseBody
-    public List<ProductCountDTO> chartData(){
-        return productRepository.fastMovingProducts();
+    public List<ProductCountDTO> dailyChartData(){
+        return productRepository.fastMovingProductsDaily(currentDate, currentDate.plusDays(1));
     }
 
+    @GetMapping(value = "/chartdata/weekly")
+    @ResponseBody
+    public List<ProductCountDTO> weekChartData(){
+        return productRepository.fastMovingProductsWeekly(currentDate, currentDate.plusDays(7));
+    }
+
+    @GetMapping(value = "/chartdata/monthly")
+    @ResponseBody
+    public List<ProductCountDTO> monthlyChartData() {
+        LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
+        LocalDate lastDayOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth());
+
+        return productRepository.fastMovingProductsMonthly(firstDayOfMonth, lastDayOfMonth);
+    }
+
+    @GetMapping(value = "/chartdata/annually")
+    @ResponseBody
+    public List<ProductCountDTO> annuallyChartData() {
+        LocalDate firstDayOfYear = LocalDate.now().withDayOfYear(1);
+        LocalDate lastDayOfYear = LocalDate.now().withDayOfYear(LocalDate.now().lengthOfYear());
+
+        return productRepository.fastMovingProductsAnnually(firstDayOfYear, lastDayOfYear);
+    }
 
 }

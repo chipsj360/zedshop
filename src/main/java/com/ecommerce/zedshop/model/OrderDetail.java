@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @NoArgsConstructor
@@ -22,6 +24,7 @@ public class OrderDetail {
     private double totalPrice;
     private double unitPrice;
 
+    private LocalDate orderDate;
     @OneToOne(cascade =CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     private Order order;
