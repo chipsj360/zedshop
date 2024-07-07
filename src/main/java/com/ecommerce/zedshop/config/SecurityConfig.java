@@ -61,7 +61,7 @@ public  AuthenticationProvider authenticationProvider(){
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeRequests()
-                .requestMatchers("/css/**","/images/**","/","/register", "/process_register","register_success","/js/**","/product_detail/**")
+                .requestMatchers("/css/**","/images/**","/","/register", "/process_register","register_success","/js/**","/product_detail/**","/products-in-category/**")
                 .permitAll()
                 .and()
                 .authorizeRequests().requestMatchers("/admin-dashboard", "/customers", "/admin-orders").hasAuthority("ADMIN")
